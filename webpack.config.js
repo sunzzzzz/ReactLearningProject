@@ -1,8 +1,6 @@
 const path = require('path');
 module.exports = {
-	entry:{
-		path:path.resolve(__dirname,'./src/index.js'),
-	},
+	entry:['webpack/hot/dev-server',path.resolve(__dirname,'./src/index.js')],
 	output:{
 		path:path.resolve(__dirname,'./build'),
 		filename:'bundle.js'
@@ -11,15 +9,18 @@ module.exports = {
 		rules:[
 			{
 				test:/\.js$/,
-				loader:'babel-loader',
-				 query:{
-                    presets:['es2015','react','stage-0'] 
-                }
-			}
+				loader:'babel-loader'
+			},
+
 		]
 	},
 	mode:'development',
-	devServer:{}
+	devtool:'source-map',
+	devServer:{
+		inline:true,
+		port:3000
+	}
+	
 
 
 
