@@ -13,7 +13,7 @@ class Login extends React.Component{
 		// 	state:{id:'3'}
 		// })
 		let str = ' qqq opks ';
-		console.log(util._trimAside(str));
+		console.log(Util._trimAside(str));
 		this.props.dispatch(User.login('xiaoming','123456'))
 	}
 	render(){
