@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
-import * as util from '../../utils/util.js';
+import * as Util from '../../utils/util.js';
 import * as User from '../../redux/action/user.js'; 
 import {connect} from 'react-redux';
 class Login extends React.Component{
