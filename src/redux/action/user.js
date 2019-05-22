@@ -6,7 +6,7 @@ export const login = (usr,pwd) =>{
 	return (dispatch) =>{
 		dispatch({
 			type:actionType.USER_LOGIN,
-			data:{
+			loginData:{
 				username:usr,
 				password:pwd
 			}
@@ -120,7 +120,11 @@ export const  addUser = (userno,username,sex,age)=>{
 		let userid = await getUserId(obj);
 		let userinfo = await getUserInfo(userid);
 		console.log(userid);
-		console.log(userinfo);
+		console.log(userinfo.data);
+		dispatch({
+			type:actionType.ADD_USER,
+			userData:userinfo.data
+		})
 	}
 	
 }

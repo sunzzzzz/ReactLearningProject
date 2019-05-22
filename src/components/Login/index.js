@@ -16,7 +16,9 @@ class Login extends React.Component{
 			tel:'',
 			username:'',
 			sex:'0',
-			age:''
+			age:'',
+			isCommitted:false
+
 			
 		}
 	}
@@ -26,14 +28,56 @@ class Login extends React.Component{
 		// 	state:{id:'3'}
 		// })
 		let str = ' qqq opks ';
-		console.log(Util._trimAside(str));
-		this.props.dispatch(User.login('xiaoming','123456'))
+		// console.log(Util._trimAside(str));
+		// this.props.dispatch(User.login('xiaoming','123456'))
+		console.log(([])?true:false); 
+		var a = 0Xf000000000000000;
+		var b = 0x7FFFFFFFFFFFFFFF;
+		console.log(a-b)
 	}
+	// componentWillReceiveProps(nextProps){
+	// 	if(nextProps.user!=this.props.user){
+	// 		if(nextProps.user.userData.length!=0){
+	// 			this.setState({
+	// 				canClick:false
+	// 			})
+	// 		}
+	// 	}
+	// }
 
-	addUser(){
-		let {tel,username,sex,age} = this.state;
-		 this.props.dispatch(User.addUser(tel,username,sex,age))
+	throttle(fn, delay = 1000) {
+		let preTime = Date.now()
+	  
+		return (event)=>{
+			const context = this;
+			event.persist && event.persist(); //保留对事件的引用
+			let doTime = Date.now()
+			if (doTime - preTime >= delay) {
+				fn.apply(context)
+				preTime = Date.now()
+			}
+		}
+	  }
+	  
+
+		  
+	debounce(fn, wait=1000) {
+		let timeout;  // 定时器变量
+		return function(event){
+			clearTimeout(timeout);  // 每次触发时先清除上一次的定时器,然后重新计时
+			event.persist && event.persist()   //保留对事件的引用
+			//const event = e && {...e}   //深拷贝事件对象
+			timeout = setTimeout(()=>{
+				fn(event)
+			}, wait);  // 指定 xx ms 后触发真正想进行的操作 handler
+		};
 	}
+	
+
+	addUser = this.throttle((e)=>{
+		let {tel,username,sex,age} = this.state;
+	    this.props.dispatch(User.addUser(tel,username,sex,age));
+	})
 
 	handleChange(e){
 		switch(e.target.name){
@@ -67,19 +111,21 @@ class Login extends React.Component{
 		}
 	}
 	render(){
-       let arr = [];
-	   list.forEach((item,index,list)=>{
-		   arr.push(
-			<div>
-				<div>用户名{item.username}</div>
-				<div>手机号{item.userno}</div>
-				<div>年龄{item.age}</div> 
-			</div>
-		   )
-	   })
+    //    let arr = [];
+	//    list.forEach((item,index,list)=>{
+	// 	   arr.push(
+	// 		<div>
+	// 			<div>用户名{item.username}</div>
+	// 			<div>手机号{item.userno}</div>
+	// 			<div>年龄{item.age}</div> 
+	// 		</div>
+	// 	   )
+	//    })
+
+	    const nameSpace = 'mod-login-'
 		return(
 			<div>
-			    <h1 onClick={this.handleClick.bind(this)}>点击事件跳转B页面</h1>
+			    <h1 className={nameSpace+'h1'} onClick={this.handleClick.bind(this)}>点击事件跳转B页面</h1>
 				<a href="#/error">a跳转B页面</a><br/>
                 
 
@@ -101,10 +147,14 @@ class Login extends React.Component{
                        checked={this.state.sex === '1'}
                        onChange={this.handleChange.bind(this)}/>女<br/>
 
-				<button style={{width:'80px',height:'30px',backgroundColor:'skyblue',textAlign:'center',borderRadius:'3px',border:'none',cursor:'pointer'}} onClick={this.addUser.bind(this)}>添加人员</button>
+				<button id="button1" style={{width:'80px',height:'30px',backgroundColor:'skyblue',textAlign:'center',borderRadius:'3px',border:'none',cursor:'pointer'}}  onClick={this.addUser.bind(this)}>添加人员</button>
 				
-				{arr}
+				{
+					/*arr*/
+				}
 				
+				
+
 
 			</div>
 		)
@@ -113,7 +163,8 @@ class Login extends React.Component{
 const mapStateToProps = (state)=>{
 	console.log(state)
 	return{
-		login:state.login
+		login:state.login,
+		user:state.user
 	}
 }
 export default connect(mapStateToProps)(Login);
